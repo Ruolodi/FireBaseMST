@@ -2,30 +2,22 @@
     <header class="navbar" id="up">
     <h3>FireGuardBD</h3>
     <ul class="navbar-menu">
-       <li>
-        <a :style="cardInfoVisible? 'border-bottom: 2px solid #3eaf7c;':''" @click="cardInfoVisible=true; answerVisible=false">Перейти к заявкам</a>
-      
-      </li>
-           
+           <li> <a :style="cardInfoVisible? 'border-bottom: 2px solid #3eaf7c;':''" @click="cardInfoVisible=true; answerVisible=false">Перейти к заявкам</a></li> 
            <li> <a v-scroll-to="'#up'" >Наверх</a></li>
-      <li><a :style="answerVisible? 'border-bottom: 2px solid #3eaf7c;':''" @click="answerVisible=true; cardInfoVisible=false">Отправка информации</a></li>
-
-         <li> <a @click="loadLinks" >Загрузить данные</a></li>
-       
-     
-      
-      
+           <li><a :style="answerVisible? 'border-bottom: 2px solid #3eaf7c;':''" @click="answerVisible=true; cardInfoVisible=false">Отправка информации</a></li>
+          
     </ul>
   </header>
  <div class="container with-nav">
    <div class="form-control">
-  
+  <input  v-if="cardInfoVisible" class="inputLine" @input="searchKey" placeholder="Введите ключевое слово"  type="text" v-model.trim="searchKeyWord">
+
 
   </div>
-    <request-answer @loadLinks="test" v-if="answerVisible"></request-answer>
+    <request-answer @loadLinks="timerLoadFix" v-if="answerVisible"></request-answer>
     <card-info @removeNote="removeNote" v-if="cardInfoVisible"></card-info>
     <div v-if="cardInfoVisible">
-    <cards-comp @loadLinks="test" @removeNote="removeNote" v-for="(item,id) in answers" :key="item.id"  :item="item" :id="id" ></cards-comp>
+    <cards-comp @loadLinks="timerLoadFix" @removeNote="removeNote" v-for="(item,id) in answers" :key="item.id"  :item="item" :id="id" ></cards-comp>
     </div>
   </div>
 
@@ -55,6 +47,7 @@ export default {
 },
   data(){
     return{
+    searchKeyWord:'',
     cardInfoVisible: true,
     answerVisible: false,
     catchError:false,
@@ -64,7 +57,7 @@ export default {
   },
   methods:{
    
-    test(){
+  timerLoadFix(){
        setTimeout(() => {
       this.loadLinks()
        }, 800);
@@ -103,9 +96,20 @@ export default {
         await axios.delete(`https://fireguard-e136d-default-rtdb.firebaseio.com/answers/${id}.json?auth=${this.token}`)
         this.answers = this.answers.filter(answers => answers.id !==id)
       },
+      
+  searchKey(){
+      this.searchKeyWord = this.searchKeyWord.toUpperCase();
+      this.answers = this.answers.filter(answers => answers.keyWordBD.includes(this.searchKeyWord))
+    },
   
   },
-
+watch:{
+  searchKeyWord(){
+    if(this.searchKeyWord.length===0){
+      this.loadLinks()
+    }
+  }
+},
  components: {
 
     'card-info': cardInfoVue,
