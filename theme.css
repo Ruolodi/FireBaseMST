@@ -133,7 +133,7 @@ h3 {
 
 .container {
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 100vmax;
 }
 .container.big {
     margin: 0 auto;
@@ -225,7 +225,7 @@ h3 {
 .cardBig {
     display: flex;
     flex-wrap: wrap;
-    
+    justify-content: center;
     overflow: hidden;
     padding: 1rem;
     margin-bottom: 1rem;

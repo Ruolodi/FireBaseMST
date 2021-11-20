@@ -75,10 +75,6 @@ emits:['loadLinks'],
     },
  
 
-  searchKey(){
-      this.searchKeyWord = this.searchKeyWord.toUpperCase();
-      this.answers = this.answers.filter(answers => answers.keyWordBD === this.searchKeyWord)
-    },
  
   },
 
