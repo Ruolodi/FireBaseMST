@@ -1,31 +1,31 @@
 <template>
 
 
-    <div class="card">
-       <div class="form-control">
-        <h2 style="font-size: 2rem;">{{item.keyWordBD}}</h2>
+    <div class="card" :id="item.id">
+       <div class="form-control" id="0">
+        <h2 v-if="changeAnswer===false" style="font-size: 2rem;">{{item.keyWordBD}}</h2>
         <input v-if="changeAnswer" class="inputLine" v-model="modelKeyWord">
         <hr/>
         
-        <h2 style="font-size: 1.5rem; color: green; text-align: left;">Номер заявки: {{item.numberBD}}</h2>
-        <input v-if="changeAnswer" class="inputLine" v-model="modelNumber">
+        <h2 v-if="changeAnswer===false" style="font-size: 1.5rem; color: green; text-align: left;">Номер заявки: {{item.numberBD}}</h2>
+        <input  v-if="changeAnswer" class="inputLine" v-model="modelNumber">
         <hr/>
         <p>Расшифровка:</p>
-        <p>{{item.discriptionBD}}</p>
+        <p v-if="changeAnswer===false">{{item.discriptionBD}}</p>
         <textarea v-if="changeAnswer" class="inputLineBig1" v-model="modelDiscription"></textarea>
          <hr/>
          <p>Ответ:</p>
-        <pre >{{item.answerBD}}</pre>
+        <pre v-if="changeAnswer===false">{{item.answerBD}}</pre>
         <textarea v-if="changeAnswer" class="inputLineBig" v-model="modelAnswer"></textarea>
           
          
         <hr/>
            <select v-if="changeAnswer" v-model="modelSelect" >
         <option disabled value="">Выберите статус</option>
-        <option v-for="(selectItem, id) in arraySelect" :key="selectItem" >{{arraySelect[id]}}</option>
+        <option  v-for="(selectItem, id) in arraySelect" :key="selectItem" >{{arraySelect[id]}}</option>
        
     </select>
-         <p style="font-size: 1.5rem;">Статус заявки: {{item.statusBD}}</p>
+         <p v-if="changeAnswer===false" style="font-size: 1.5rem;">Статус заявки: {{item.statusBD}}</p>
           <button v-if="changeAnswer" class="btn primary" @click="$emit('loadLinks'), changeAnswerMeth(item.id)">Отправить</button>
          <button :class="changeAnswer===true? 'btn danger':'btn primary'"  
          @click="openWindowChange(item.id) ,modelAnswer=item.answerBD, modelKeyWord=item.keyWordBD, modelNumber=item.numberBD, modelDiscription=item.discriptionBD, modelSelect=item.statusBD">

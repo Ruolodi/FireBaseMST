@@ -1,8 +1,8 @@
 <template>
 
-  <form class="card" @submit.prevent="createAnswer">
+  <form class="card" @submit.prevent="createAnswer" >
     <h2>Отправка информации в бд</h2>
-   <div class="form-control">
+   <div class="form-control" >
       <label for="numberNote">Введите номер заявки...</label>
       <input type="number" class="inputLine" id="numberNote"  v-model.trim="numberNote" >
     </div>

@@ -1,27 +1,31 @@
 <template>
-    <header class="navbar" >
+    <header class="navbar" id="up">
     <h3>FireGuardBD</h3>
     <ul class="navbar-menu">
-     <li> <button class="btn center"  @click="loadLinks">Загрузить данные</button></li>
- 
-      <li><a :style="answerVisible? 'border-bottom: 2px solid #3eaf7c;':''" @click="answerVisible=true; cardInfoVisible=false">Отправка информации</a></li>
-      <li>
+       <li>
         <a :style="cardInfoVisible? 'border-bottom: 2px solid #3eaf7c;':''" @click="cardInfoVisible=true; answerVisible=false">Перейти к заявкам</a>
       
       </li>
+           
+           <li> <a v-scroll-to="'#up'" >Наверх</a></li>
+      <li><a :style="answerVisible? 'border-bottom: 2px solid #3eaf7c;':''" @click="answerVisible=true; cardInfoVisible=false">Отправка информации</a></li>
+
+         <li> <a @click="loadLinks" >Загрузить данные</a></li>
+       
+     
       
       
     </ul>
   </header>
  <div class="container with-nav">
    <div class="form-control">
-  <input  v-if="cardInfoVisible" class="inputLine" @keypress.enter="searchKey" placeholder="Введите ключевое слово"  type="text" v-model.trim="searchKeyWord">
+  
 
   </div>
     <request-answer @loadLinks="test" v-if="answerVisible"></request-answer>
     <card-info @removeNote="removeNote" v-if="cardInfoVisible"></card-info>
     <div v-if="cardInfoVisible">
-    <cards-comp @loadLinks="test" @removeNote="removeNote" v-for="(item,id) in answers" :key="item.id"  :item="item" :id="id"></cards-comp>
+    <cards-comp @loadLinks="test" @removeNote="removeNote" v-for="(item,id) in answers" :key="item.id"  :item="item" :id="id" ></cards-comp>
     </div>
   </div>
 
@@ -51,20 +55,15 @@ export default {
 },
   data(){
     return{
-    cardInfoVisible: false,
-    answerVisible: true,
+    cardInfoVisible: true,
+    answerVisible: false,
     catchError:false,
     answers: [],
     token: '9VIfEVIaYVIWjgWJUxbdd6TqHEHIeIqBbxdUXsfh',
     }
   },
   methods:{
-      searchKey()
-    {
-      this.searchKeyWord = this.searchKeyWord.toUpperCase();
-      this.answers = this.answers.filter(answers => answers.keyWordBD === this.searchKeyWord)
-     
-    },
+   
     test(){
        setTimeout(() => {
       this.loadLinks()
@@ -82,7 +81,7 @@ export default {
           }
          
       })
-       
+       this.sortArr()
        console.log(this.answers)
        
        
@@ -93,6 +92,9 @@ export default {
         
         
         
+      },
+      sortArr(){
+        this.answers.sort((a, b) => a.keyWordBD.localeCompare(b.keyWordBD))
       },
      
       async removeNote(id){

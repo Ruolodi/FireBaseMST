@@ -1,5 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+
 import '/theme.css'
 
-createApp(App).mount('#app')
+
+const VueScrollTo = require('vue-scrollto')
+
+createApp(App)
+.use(VueScrollTo)
+.mount('#app')

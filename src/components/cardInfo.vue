@@ -10,7 +10,7 @@
   <tr><td>
   <h5 >{{answers.type[id].keyWordBD}}</h5>
 
-  <h5 style="color: red; cursor: pointer;"  @click="$emit('removeNote', item.id) ">Удалить</h5>
+  <h5 style="color: red; cursor: pointer;" v-scroll-to="`#${item.id}`" >Найти</h5>
   </td></tr>
   </div>
 </div>
@@ -48,11 +48,6 @@ methods:{
 
 
 
-filterItem(id)
-{
- 
-   
-},
 },
 
 components:{
